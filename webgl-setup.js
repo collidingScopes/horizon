@@ -96,4 +96,19 @@ window.addEventListener('keydown', (event) => {
         event.preventDefault();
         togglePlayPause();
     }
+
+    // Randomize parameters on 'r' key
+    if (event.code === 'KeyR') {
+      event.preventDefault();
+      randomizeInputs();
+      
+      // Show indicator
+      playPauseIndicator.textContent = "Randomized";
+      playPauseIndicator.classList.add('visible');
+      
+      // Hide indicator after 1.5 seconds
+      setTimeout(() => {
+          playPauseIndicator.classList.remove('visible');
+      }, 1500);
+    }
 });

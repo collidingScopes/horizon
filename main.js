@@ -1,3 +1,16 @@
+/*
+To do:
+improve default presets
+save presets (to local storage?)
+add color shifting over time
+add noise / distortion variable
+improve randomize inputs function (dynamically fetch min/max ranges)
+what other animation parameters would be visually interesting?
+add video export function
+footer / about div
+can text be added to the center?
+*/
+
 // Global variables for WebGL
 let programInfo;
 let positionBuffer;
