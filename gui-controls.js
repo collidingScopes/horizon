@@ -14,7 +14,7 @@ function initGui() {
     // Animation controls
     guiControllers.speed = animationFolder.add(params, 'speed', 0.1, 3.0).name('Speed');
     guiControllers.iterations = animationFolder.add(params, 'iterations', 3, 24).step(1).name('Iterations');
-    animationFolder.add(params, 'resetAnimation').name('Reset Animation');
+    animationFolder.add(params, 'randomizeInputs').name('Randomize Inputs');
     animationFolder.open();
     
     // Pattern controls

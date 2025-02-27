@@ -21,25 +21,25 @@ window.addEventListener('resize', resizeCanvas);
 // Default parameters
 const params = {
     // Animation Settings
-    speed: 1.0,
+    speed: 1.2,
     iterations: 8,
     // Pattern Settings
-    scale: 0.2,
-    dotFactor: 0.7,
-    vOffset: 0.7,
+    scale: 0.71,
+    dotFactor: 0.4,
+    vOffset: 2.0,
     intensityFactor: 0.2,
-    expFactor: 4.0,
+    expFactor: 4.2,
     // Color Settings
-    redFactor: 1.0,
-    greenFactor: -1.0,
-    blueFactor: -2.0,
+    redFactor: 0.2,
+    greenFactor: -0.8,
+    blueFactor: -1.5,
     colorShift: 0.0,
     // Presets
-    preset: 'Default',
+    preset: 'Horizon',
     // Animation Control
     playing: true,
-    resetAnimation: function() {
-        startTime = Date.now();
+    randomizeInputs: function() {
+        randomizeInputs();
     }
 };
 
@@ -87,6 +87,10 @@ function togglePlayPause() {
     setTimeout(() => {
         playPauseIndicator.classList.remove('visible');
     }, 1500);
+}
+
+function resetAnimation(){
+  startTime = Date.now();
 }
 
 // Handle keyboard events
