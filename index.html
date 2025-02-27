@@ -80,8 +80,6 @@
             greenFactor: -1.0,
             blueFactor: -2.0,
             colorShift: 0.0,
-            colorBlend: [255, 255, 255],
-            colorBlendAmount: 0.0,
             // Presets
             preset: 'Default',
             // Animation Control
@@ -111,8 +109,6 @@
                 greenFactor: -1.0,
                 blueFactor: -2.0,
                 colorShift: 0.0,
-                colorBlend: [255, 255, 255],
-                colorBlendAmount: 0.0,
             },
             'Cosmic Waves': {
                 speed: 0.8,
@@ -126,8 +122,6 @@
                 greenFactor: -0.8,
                 blueFactor: -1.5,
                 colorShift: 0.2,
-                colorBlend: [85, 0, 255],
-                colorBlendAmount: 0.3,
             },
             'Fire Ripples': {
                 speed: 1.5,
@@ -141,8 +135,6 @@
                 greenFactor: 0.4,
                 blueFactor: -0.4,
                 colorShift: 0.0,
-                colorBlend: [255, 85, 0],
-                colorBlendAmount: 0.4,
             },
             'Deep Ocean': {
                 speed: 0.6,
@@ -156,8 +148,6 @@
                 greenFactor: -0.2,
                 blueFactor: 1.5,
                 colorShift: 0.3,
-                colorBlend: [0, 170, 255],
-                colorBlendAmount: 0.25,
             },
             'The Matrix': {
                 speed: 1.2,
@@ -171,8 +161,6 @@
                 greenFactor: 1.8,
                 blueFactor: -1.5,
                 colorShift: 0.1,
-                colorBlend: [0, 255, 102],
-                colorBlendAmount: 0.35,
             },
             'Psychedelic': {
                 speed: 2.0,
@@ -186,8 +174,6 @@
                 greenFactor: 1.2,
                 blueFactor: 0.8,
                 colorShift: 0.8,
-                colorBlend: [255, 0, 255],
-                colorBlendAmount: 0.5,
             }
         };
 
@@ -217,8 +203,7 @@
             uniform float u_expFactor;
             uniform vec3 u_colorFactors;
             uniform float u_colorShift;
-            uniform vec3 u_colorBlend;
-            uniform float u_colorBlendAmount;
+            // Color blend uniforms removed
             
             void main() {
                 vec2 r = u_resolution;
@@ -256,10 +241,7 @@
                 vec4 exp2x = exp(2.0 * ratio);
                 o = (exp2x - 1.0) / (exp2x + 1.0);
                 
-                // Apply color blend/tint if requested
-                if (u_colorBlendAmount > 0.0) {
-                    o.rgb = mix(o.rgb, u_colorBlend, u_colorBlendAmount);
-                }
+                // No color blending
                 
                 gl_FragColor = o;
             }
@@ -328,9 +310,7 @@
                 intensityFactor: gl.getUniformLocation(shaderProgram, 'u_intensityFactor'),
                 expFactor: gl.getUniformLocation(shaderProgram, 'u_expFactor'),
                 colorFactors: gl.getUniformLocation(shaderProgram, 'u_colorFactors'),
-                colorShift: gl.getUniformLocation(shaderProgram, 'u_colorShift'),
-                colorBlend: gl.getUniformLocation(shaderProgram, 'u_colorBlend'),
-                colorBlendAmount: gl.getUniformLocation(shaderProgram, 'u_colorBlendAmount')
+                colorShift: gl.getUniformLocation(shaderProgram, 'u_colorShift')
             },
         };
 
@@ -421,12 +401,7 @@
                         params.redFactor, params.greenFactor, params.blueFactor);
             gl.uniform1f(programInfo.uniformLocations.colorShift, params.colorShift);
             
-            // Convert RGB array to normalized values
-            const r = params.colorBlend[0] / 255;
-            const g = params.colorBlend[1] / 255;
-            const b = params.colorBlend[2] / 255;
-            gl.uniform3f(programInfo.uniformLocations.colorBlend, r, g, b);
-            gl.uniform1f(programInfo.uniformLocations.colorBlendAmount, params.colorBlendAmount);
+            // Tint color uniforms removed
 
             // Draw the quad (TRIANGLE_STRIP needs only 4 vertices for a quad)
             gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
@@ -449,8 +424,6 @@
             animationFolder.add(params, 'speed', 0.1, 5.0).name('Speed');
             animationFolder.add(params, 'iterations', 3, 16).step(1).name('Iterations');
             animationFolder.add(params, 'resetAnimation').name('Reset Animation');
-            animationFolder.add(params, 'playing').name('Playing').listen()
-                .onChange(() => togglePlayPause());
             animationFolder.open();
             
             // Pattern controls
@@ -465,16 +438,13 @@
             colorFolder.add(params, 'greenFactor', -2.0, 2.0).name('Green Component');
             colorFolder.add(params, 'blueFactor', -2.0, 2.0).name('Blue Component');
             colorFolder.add(params, 'colorShift', 0.0, 1.0).name('Color Shift');
-            colorFolder.addColor(params, 'colorBlend').name('Tint Color');
-            colorFolder.add(params, 'colorBlendAmount', 0.0, 1.0).name('Tint Amount');
             
             // Presets dropdown
             const presetNames = Object.keys(presets);
             presetFolder.add(params, 'preset', presetNames).name('Load Preset')
                 .onChange(applyPreset);
                 
-            // Add help text
-            gui.add({ 'Space Bar': 'Toggle Play/Pause' }, 'Space Bar').name('Help').listen();
+            // No help text
             
             return gui;
         }
