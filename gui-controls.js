@@ -18,7 +18,7 @@ function initGui() {
     animationFolder.open();
     
     // Pattern controls
-    guiControllers.scale = patternFolder.add(params, 'scale', 0.05, 4.0).name('Pattern Scale');
+    guiControllers.scale = patternFolder.add(params, 'scale', 0.02, 4.0).name('Pattern Scale');
     guiControllers.dotFactor = patternFolder.add(params, 'dotFactor', 0.1, 1.2).name('Dot Factor');
     guiControllers.vOffset = patternFolder.add(params, 'vOffset', 0.0, 10.0).name('Pattern Offset');
     guiControllers.intensityFactor = patternFolder.add(params, 'intensityFactor', 0.05, 1.0).name('Intensity');
@@ -26,10 +26,10 @@ function initGui() {
     patternFolder.open();
 
     // Color controls
-    guiControllers.redFactor = colorFolder.add(params, 'redFactor', -3.0, 3.0).name('Red Component');
-    guiControllers.greenFactor = colorFolder.add(params, 'greenFactor', -3.0, 3.0).name('Green Component');
-    guiControllers.blueFactor = colorFolder.add(params, 'blueFactor', -3.0, 3.0).name('Blue Component');
-    guiControllers.colorShift = colorFolder.add(params, 'colorShift', 0.0, 2.0).name('Color Shift');
+    guiControllers.redFactor = colorFolder.add(params, 'redFactor', -3.0, 3.0).step(0.1).name('Red Component');
+    guiControllers.greenFactor = colorFolder.add(params, 'greenFactor', -3.0, 3.0).step(0.1).name('Green Component');
+    guiControllers.blueFactor = colorFolder.add(params, 'blueFactor', -3.0, 3.0).step(0.1).name('Blue Component');
+    guiControllers.colorShift = colorFolder.add(params, 'colorShift', 0.0, 2.0).step(0.1).name('Color Shift');
     colorFolder.open();
 
     // Presets dropdown
@@ -63,7 +63,7 @@ function applyPreset(presetName) {
 function randomizeInputs() {
   // Animation parameters
   params.speed = Math.random() * 2.9 + 0.1;
-  params.iterations = Math.floor(Math.random() * 24);
+  params.iterations = Math.ceil(Math.random() * 23);
   
   // Pattern parameters
   params.scale = Math.random() * 4;

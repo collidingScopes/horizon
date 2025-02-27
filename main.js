@@ -9,6 +9,7 @@ what other animation parameters would be visually interesting?
 add video export function
 footer / about div
 can text be added to the center?
+make parameter names more intuitive
 */
 
 // Global variables for WebGL
