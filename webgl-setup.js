@@ -40,7 +40,13 @@ const params = {
     playing: true,
     randomizeInputs: function() {
         randomizeInputs();
-    }
+    },
+    saveImage: function() {
+      saveImage();
+    },
+    exportVideo: function() {
+      toggleVideoRecord();
+    },
 };
 
 // Animation state
@@ -95,15 +101,12 @@ function resetAnimation(){
 
 // Handle keyboard events
 window.addEventListener('keydown', (event) => {
-    // Toggle play/pause on Space bar
     if (event.code === 'Space') {
         event.preventDefault();
         togglePlayPause();
     }
 
-    // Randomize parameters on 'r' key
     if (event.code === 'KeyR') {
-      event.preventDefault();
       randomizeInputs();
       
       // Show indicator
@@ -114,5 +117,13 @@ window.addEventListener('keydown', (event) => {
       setTimeout(() => {
           playPauseIndicator.classList.remove('visible');
       }, 1500);
+    }
+
+    if (event.code === 'KeyS') {
+      saveImage();
+    }
+
+    if (event.code === 'KeyV') {
+      toggleVideoRecord();
     }
 });

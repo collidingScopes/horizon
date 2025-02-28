@@ -14,7 +14,9 @@ function initGui() {
     // Animation controls
     guiControllers.speed = animationFolder.add(params, 'speed', 0.1, 3.0).name('Speed');
     guiControllers.iterations = animationFolder.add(params, 'iterations', 3, 24).step(1).name('Iterations');
-    animationFolder.add(params, 'randomizeInputs').name('Randomize Inputs');
+    animationFolder.add(params, 'randomizeInputs').name('Randomize Inputs (r)');
+    animationFolder.add(params, 'saveImage').name('Save Image (s)');
+    animationFolder.add(params, 'exportVideo').name('Record Video (v)');
     animationFolder.open();
     
     // Pattern controls

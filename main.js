@@ -10,6 +10,8 @@ add video export function
 footer / about div
 can text be added to the center?
 make parameter names more intuitive
+add control for grain look
+add control for background color
 */
 
 // Global variables for WebGL
@@ -54,56 +56,56 @@ async function init() {
     const gui = initGui();
     
     // Start rendering
-    render();
+    animate();
+}
+
+function drawScene(){
+  // Update current time
+  if (params.playing) {
+    currentTime = Date.now() - startTime;
+  }
+
+  // Set background color to solid black
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  // Ensure we're drawing on the full canvas by setting a black quad first
+  gl.useProgram(programInfo.program);
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  gl.vertexAttribPointer(
+      programInfo.attribLocations.vertexPosition,
+      2,          // 2 components per vertex
+      gl.FLOAT,   // 32bit floating point values
+      false,      // don't normalize
+      0,          // stride (0 = auto)
+      0           // offset into buffer
+  );
+  gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
+
+  // Set the uniforms
+  gl.uniform2f(programInfo.uniformLocations.resolution, canvas.width, canvas.height);
+  gl.uniform1f(programInfo.uniformLocations.time, currentTime / 1000);
+
+  // Set the UI parameter uniforms
+  gl.uniform1f(programInfo.uniformLocations.speed, params.speed);
+  gl.uniform1f(programInfo.uniformLocations.iterations, params.iterations);
+  gl.uniform1f(programInfo.uniformLocations.scale, params.scale);
+  gl.uniform1f(programInfo.uniformLocations.dotFactor, params.dotFactor);
+  gl.uniform1f(programInfo.uniformLocations.vOffset, params.vOffset);
+  gl.uniform1f(programInfo.uniformLocations.intensityFactor, params.intensityFactor);
+  gl.uniform1f(programInfo.uniformLocations.expFactor, params.expFactor);
+  gl.uniform3f(programInfo.uniformLocations.colorFactors, 
+              params.redFactor, params.greenFactor, params.blueFactor);
+  gl.uniform1f(programInfo.uniformLocations.colorShift, params.colorShift);
+
+  // Draw the quad (TRIANGLE_STRIP needs only 4 vertices for a quad)
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 }
 
 // Draw the scene
-function render() {
-    // Update current time
-    if (params.playing) {
-        currentTime = Date.now() - startTime;
-    }
-    
-    // Clear the canvas
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-
-    // Use our shader program
-    gl.useProgram(programInfo.program);
-
-    // Set up attribute and binding point to the position buffer
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.vertexAttribPointer(
-        programInfo.attribLocations.vertexPosition,
-        2,          // 2 components per vertex
-        gl.FLOAT,   // 32bit floating point values
-        false,      // don't normalize
-        0,          // stride (0 = auto)
-        0           // offset into buffer
-    );
-    gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
-
-    // Set the uniforms
-    gl.uniform2f(programInfo.uniformLocations.resolution, canvas.width, canvas.height);
-    gl.uniform1f(programInfo.uniformLocations.time, currentTime / 1000);
-    
-    // Set the UI parameter uniforms
-    gl.uniform1f(programInfo.uniformLocations.speed, params.speed);
-    gl.uniform1f(programInfo.uniformLocations.iterations, params.iterations);
-    gl.uniform1f(programInfo.uniformLocations.scale, params.scale);
-    gl.uniform1f(programInfo.uniformLocations.dotFactor, params.dotFactor);
-    gl.uniform1f(programInfo.uniformLocations.vOffset, params.vOffset);
-    gl.uniform1f(programInfo.uniformLocations.intensityFactor, params.intensityFactor);
-    gl.uniform1f(programInfo.uniformLocations.expFactor, params.expFactor);
-    gl.uniform3f(programInfo.uniformLocations.colorFactors, 
-                params.redFactor, params.greenFactor, params.blueFactor);
-    gl.uniform1f(programInfo.uniformLocations.colorShift, params.colorShift);
-
-    // Draw the quad (TRIANGLE_STRIP needs only 4 vertices for a quad)
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-    // Continue animation
-    animationFrameId = requestAnimationFrame(render);
+function animate() {
+  drawScene();
+  animationFrameId = requestAnimationFrame(animate);
 }
 
 // Cleanup on page unload

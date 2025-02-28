@@ -14,6 +14,11 @@ uniform float u_expFactor;
 uniform vec3 u_colorFactors;
 uniform float u_colorShift;
 
+// Pseudo-random function for noise generation
+float random(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+}
+
 void main() {
     vec2 r = u_resolution;
     vec2 FC = gl_FragCoord.xy;
@@ -49,6 +54,16 @@ void main() {
     // tanh(x) = (exp(2x) - 1) / (exp(2x) + 1)
     vec4 exp2x = exp(2.0 * ratio);
     o = (exp2x - 1.0) / (exp2x + 1.0);
+    
+    // Add film grain
+    vec2 noiseCoord = FC / 1.5;
+    float noise = random(noiseCoord + time * 0.03) * 0.15 - 0.075;
+
+    // Apply film grain and effects
+    o = o + vec4(noise);
+    
+    // Clamp values to avoid artifacts
+    o = clamp(o, 0.0, 1.0);
     
     gl_FragColor = o;
 }
