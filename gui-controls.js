@@ -22,6 +22,7 @@ function initGui() {
     // Pattern controls
     guiControllers.scale = patternFolder.add(params, 'scale', 0.02, 4.0).name('Pattern Scale');
     guiControllers.dotFactor = patternFolder.add(params, 'dotFactor', 0.1, 1.2).name('Dot Factor');
+    guiControllers.dotMultiplier = patternFolder.add(params, 'dotMultiplier', 0.0, 8.0).name('Dot Multiplier');
     guiControllers.vOffset = patternFolder.add(params, 'vOffset', 0.0, 10.0).name('Pattern Offset');
     guiControllers.intensityFactor = patternFolder.add(params, 'intensityFactor', 0.05, 1.0).name('Intensity');
     guiControllers.expFactor = patternFolder.add(params, 'expFactor', 0.1, 20.0).name('Exp Factor');
@@ -70,6 +71,7 @@ function randomizeInputs() {
   // Pattern parameters
   params.scale = Math.random() * 4;
   params.dotFactor = Math.random() * 1.1 + 0.1;
+  params.dotMultiplier = Math.random() * 8.0;
   params.vOffset = Math.random() * 1.9 + 0.1; // 0.1 to 2.0
   params.intensityFactor = Math.random() * 0.95 + 0.05; // 0.05 to 1.0
   params.expFactor = Math.random() * 9.0 + 1.0; // 1.0 to 10.0

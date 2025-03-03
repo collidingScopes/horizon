@@ -29,6 +29,7 @@ const params = {
     vOffset: 6.4,
     intensityFactor: 0.23,
     expFactor: 0.6,
+    dotMultiplier: 1.0,
     // Color Settings
     redFactor: 0.0,
     greenFactor: 0.0,

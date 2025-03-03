@@ -6,7 +6,6 @@ add color shifting over time
 add noise / distortion variable
 improve randomize inputs function (dynamically fetch min/max ranges)
 what other animation parameters would be visually interesting?
-add video export function
 footer / about div
 can text be added to the center?
 make parameter names more intuitive
@@ -45,7 +44,8 @@ async function init() {
             intensityFactor: gl.getUniformLocation(shaderProgram, 'u_intensityFactor'),
             expFactor: gl.getUniformLocation(shaderProgram, 'u_expFactor'),
             colorFactors: gl.getUniformLocation(shaderProgram, 'u_colorFactors'),
-            colorShift: gl.getUniformLocation(shaderProgram, 'u_colorShift')
+            colorShift: gl.getUniformLocation(shaderProgram, 'u_colorShift'),
+            dotMultiplier: gl.getUniformLocation(shaderProgram, 'u_dotMultiplier'),
         },
     };
     
@@ -97,6 +97,7 @@ function drawScene(){
   gl.uniform3f(programInfo.uniformLocations.colorFactors, 
               params.redFactor, params.greenFactor, params.blueFactor);
   gl.uniform1f(programInfo.uniformLocations.colorShift, params.colorShift);
+  gl.uniform1f(programInfo.uniformLocations.dotMultiplier, params.dotMultiplier);
 
   // Draw the quad (TRIANGLE_STRIP needs only 4 vertices for a quad)
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);

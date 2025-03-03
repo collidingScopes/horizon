@@ -13,6 +13,7 @@ uniform float u_intensityFactor;
 uniform float u_expFactor;
 uniform vec3 u_colorFactors;
 uniform float u_colorShift;
+uniform float u_dotMultiplier;
 
 // Pseudo-random function for noise generation
 float random(vec2 st) {
@@ -28,7 +29,7 @@ void main() {
     vec2 p = (FC.xy*2.0-r)/r.y;
     vec2 l = vec2(0.0);
     float dotP = dot(p, p);
-    l.x += abs(u_dotFactor-dotP);
+    l.x += abs(u_dotFactor-dotP) * u_dotMultiplier;
     vec2 v = p*(1.0-l.x)/u_scale;
     
     // for(float i;i++<8.;o+=(sin(v.xyyx)+1.)*abs(v.x-v.y)*.2)v+=cos(v.yx*i+vec2(0,i)+time)/i+.7;
