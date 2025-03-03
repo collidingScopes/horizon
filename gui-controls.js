@@ -64,7 +64,7 @@ function applyPreset(presetName) {
 
 function randomizeInputs() {
   // Animation parameters
-  params.speed = Math.random() * 2.9 + 0.1;
+  params.speed = Math.random() * 2 + 0.1;
   params.iterations = Math.ceil(Math.random() * 23);
   
   // Pattern parameters

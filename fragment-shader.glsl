@@ -57,7 +57,7 @@ void main() {
     
     // Add film grain
     vec2 noiseCoord = FC / 1.5;
-    float noise = random(noiseCoord + time * 0.03) * 0.15 - 0.075;
+    float noise = random(noiseCoord + time * 0.001) * 0.12 - 0.075;
 
     // Apply film grain and effects
     o = o + vec4(noise);
